@@ -1,0 +1,193 @@
+{% load static %} {% load i18n %} {% get_current_language as LANGUAGE_CODE %}
+<!doctype html>
+<html lang="{{ LANGUAGE_CODE }}" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>{% trans "Your Doctor" %}</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="{% static 'booking/style.css' %}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+
+  <body class="{% block body_class %}{% endblock %}">
+    <header class="nav-container" id="navContainer">
+      {% block navbar %}
+      <div class="lang-dropbtn" id="langdropBtn">
+        <button class="lang-btn" id="langBtn">🌐</button>
+        <div class="language-container" id="langContainer">
+          <form action="{% url 'set_language' %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{ request.path }}" />
+
+            <button
+              type="submit"
+              name="language"
+              value="en"
+              {%
+              if
+              LANGUAGE_CODE=""
+              ="en"
+              %}disabled{%
+              endif
+              %}
+            >
+              {% trans "English" %}
+            </button>
+            <button
+              type="submit"
+              name="language"
+              value="es"
+              {%
+              if
+              LANGUAGE_CODE=""
+              ="es"
+              %}disabled{%
+              endif
+              %}
+            >
+              {% trans "Spanish" %}
+            </button>
+            <button
+              type="submit"
+              name="language"
+              value="sv"
+              {%
+              if
+              LANGUAGE_CODE=""
+              ="sv"
+              %}disabled{%
+              endif
+              %}
+            >
+              {% trans "Swedish" %}
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <h1 class="hero-name">
+        <a href="{% url 'home' %}">{% trans "YourDoctor" %}</a>
+      </h1>
+
+      <button class="burger" onclick="toggleMenu()">☰</button>
+
+      <nav id="navMenu">
+        <a href="{% url 'home' %}">{% trans "Home" %}</a>
+
+        <ul class="nav-list">
+          <li class="dropdown">
+            <a href="{% url 'about' %}" class="dropdown-toggle">
+              {% trans "About" %} ▾
+            </a>
+            <ul class="dropdown-menu">
+              <li>
+                <a href="{% url 'contactus' %}">{% trans "Contact Us" %}</a>
+              </li>
+              <li>
+                <a href="{% url 'home' %}#how-it-works"
+                  >{% trans "How it works" %}</a
+                >
+              </li>
+            </ul>
+          </li>
+        </ul>
+
+        <a href="{% url 'about' %}" class="nav-item mobile-only"
+          >{% trans "About" %}</a
+        >
+        <a href="{% url 'contactus' %}" class="nav-item mobile-only"
+          >{% trans "Contact Us" %}</a
+        >
+        <a href="{% url 'home' %}#how-it-works" class="nav-item mobile-only">
+          {% trans "How it works" %}
+        </a>
+
+        <a href="{% url 'care_team' %}">{% trans "Care Team" %}</a>
+        {% if user.is_authenticated %}
+        <a href="{% url 'staff_dashboard' %}">{% trans "Dashboard" %}</a>
+        <a href="{% url 'staff_profile' %}">{% trans "Profile" %}</a>
+        {% else %}
+        <a href="{% url 'patient_dashboard' %}">{% trans "Dashboard" %}</a>
+        <a href="{% url 'login' %}">{% trans "Login" %}</a>
+        {% endif %}
+      </nav>
+    </header>
+    {% endblock %}
+
+    <div class="hero {% block hero_class %}default-hero{% endblock %}">
+      <div class="hero-text">{% block hero_text %}{% endblock %}</div>
+    </div>
+
+    {% block content %}
+    <main></main>
+    {% endblock %} {% block footer %}
+    <footer class="footer-container">
+      <div class="brand-name">
+        <h1>{% trans "YourDoctor" %}</h1>
+        <p>
+          {% blocktrans %} Connecting patients with trusted healthcare
+          professionals anytime, anywhere {% endblocktrans %}
+        </p>
+      </div>
+
+      <div class="inner-footer-container">
+        <div class="quick-links">
+          <h3>{% trans "Quick Links" %}</h3>
+          <a href="{% url 'home' %}">{% trans "Home" %}</a>
+          <a href="{% url 'about' %}">{% trans "About" %}</a>
+          <a href="{% url 'care_team' %}">{% trans "Care Team" %}</a>
+          {% if user.is_authenticated %}
+          <a href="{% url 'staff_dashboard' %}">{% trans "Dashboard" %}</a>
+          <a href="{% url 'staff_profile' %}">{% trans "Profile" %}</a>
+          {% else %}
+          <a href="{% url 'contactus' %}">{% trans "Contact Us" %}</a>
+          <a href="{% url 'patient_dashboard' %}">{% trans "Dashboard" %}</a>
+          <a href="{% url 'login' %}">{% trans "Login" %}</a>
+          {% endif %}
+        </div>
+
+        <div class="patient-support">
+          <h3>{% trans "Patient Support" %}</h3>
+          <a href="mailto:rahimi.john10@gmail.com"
+            >📧 rahimi.john10@gmail.com</a
+          >
+          <a href="tel:+46 709414592">📞 +46 709414592</a>
+          <a href="#">🕒 {% trans "24/7" %}</a>
+        </div>
+
+        <div class="legal-safety">
+          <h3>{% trans "Legal & Safety" %}</h3>
+          <a href="/privacy/">{% trans "Privacy Policy" %}</a>
+          <a href="/terms/">{% trans "Terms & Conditions" %}</a>
+          <a href="#">{% trans "Medical Disclaimer" %}</a>
+        </div>
+
+        <div class="trust-secure">
+          <h3>{% trans "Trust & Security" %}</h3>
+          <p>{% trans "✔ Verified Doctors" %}</p>
+          <p>{% trans "✔ Secure Consultations" %}</p>
+          <p>{% trans "✔ Confidential Health Data" %}</p>
+        </div>
+      </div>
+
+      <div class="Emergency-notice">
+        <h3>Emergency Notice</h3>
+        <p>
+          In case of a medical emergency, please contact your local emergency
+          number immediately.
+        </p>
+        <p>
+          The information on YourDoctor is not a substitute for professional
+          medical advice, diagnosis, or treatment.
+        </p>
+        <p>&copy; 2026 {% trans "<b>YourDoctor</b>. All rights reserved." %}</p>
+      </div>
+    </footer>
+    {% endblock %}
+
+    <script src="{% static 'booking/script.js' %}"></script>
+  </body>
+</html>

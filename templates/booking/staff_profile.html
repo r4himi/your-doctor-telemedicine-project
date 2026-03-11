@@ -1,0 +1,84 @@
+{% extends 'booking/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="dp-container mt-4">
+
+    <!-- Messages -->
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+            <div class="alert 
+                {% if message.tags %} alert-{{ message.tags }} {% else %} alert-info {% endif %}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="row">
+        <!-- Profile Card -->
+        <div class="col-md-4">
+            <div class="dp-card text-center">
+                {% if user.image %}
+                    <img src="{{ user.image.url }}" class="dp-profile-img" alt="{{ user.first_name }}">
+                {% else %}
+                    <img src="{% static 'images/default-doctor.jpg' %}" class="dp-profile-img" alt="Default Doctor">
+                {% endif %}
+
+                <h4>{{ user.role }} {{ user.first_name }} {{ user.last_name }}</h4>
+                <p><strong>ID:</strong> {{ user.staff_id }}</p>
+                <p><strong>Username:</strong> {{ user.username }}</p>
+                <p><strong>Email:</strong> {{ user.email }}</p>
+                <p><strong>Speciality:</strong> {{ user.speciality }}</p>
+                <p><strong>Experience:</strong> {{ user.experience }} yrs</p>
+                <p><strong>Language:</strong> {{ user.language }}</p>
+                <p><strong>Available Days:</strong> {{ user.available_day_start }} - {{ user.available_day_end }}</p>
+                <p><strong>Available Times:</strong> {{ user.available_time_start|time:"g:i A" }} - {{ user.available_time_end|time:"g:i A" }}</p>
+                <p><strong>Bio:</strong> {{ user.bio }}</p>
+
+                <!-- Styled Logout Button -->
+                <a href="{% url 'logout' %}" class="dp-btn dp-btn-danger mt-3">
+                    <i class="fa fa-sign-out-alt"></i> Logout
+                </a>
+            </div>
+        </div>
+
+        <!-- Edit Profile + Change Password -->
+        <div class="col-md-8">
+            <!-- Edit Profile -->
+            <div class="dp-card">
+                <h4>Edit Profile</h4>
+                <button type="button" class="dp-btn dp-btn-primary" onclick="toggleForm('profileForm')">Edit Profile</button>
+                <div id="profileForm" style="display:none; margin-top:10px;">
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit" name="update_profile" class="dp-btn dp-btn-primary">Update Profile</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Change Password -->
+            <div class="dp-card mt-3">
+                <h4>Change Password</h4>
+                <button type="button" class="dp-btn dp-btn-warning" onclick="toggleForm('pwdForm')">Change Password</button>
+                <div id="pwdForm" style="display:none; margin-top:10px;">
+                    <form method="POST">
+                        {% csrf_token %}
+                        {{ pwd_form.as_p }}
+                        <button type="submit" name="change_password" class="dp-btn dp-btn-warning">Change Password</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function toggleForm(formId) {
+    var formDiv = document.getElementById(formId);
+    formDiv.style.display = (formDiv.style.display === "none") ? "block" : "none";
+}
+</script>
+{% endblock %}

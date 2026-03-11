@@ -1,0 +1,96 @@
+{% extends 'booking/base.html' %}
+{% load i18n %}
+
+{% block hero_class %}hero-home{% endblock %}
+
+{% block hero_text %}
+<div class="home-text">
+    <h2>{% trans "24/7 urgent care and online doctors available." %}</h2>
+    <p>{% trans "Book an appointment with a healthcare professional in just a few clicks." %}</p>
+    
+    <button class="book-btn" id="bookBtn">
+        <a href="{% url 'care_team' %}">{% trans "Book Appointment →" %}</a>
+    </button>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="cta-wrapper">
+    <div class="stats-container">
+        <div class="stat-box">
+            <h4>100+</h4>
+            <p>{% trans "Online Doctors" %}</p>
+        </div>
+
+        <div class="stat-box">
+            <h4>50K</h4>
+            <p>{% trans "Virtual Consultations" %}</p>
+        </div>
+
+        <div class="stat-box">
+            <h4>24/7</h4>
+            <p>{% trans "Available Support" %}</p>
+        </div>
+    </div>
+</div>
+
+<section class="virtual-part">
+    <div class="virtual-consultations">
+        <div class="virtual-info">
+            <h3 class="h3-first">{% trans "Virtual Consultation Options" %}</h3>
+            <p class="p-first">{% blocktrans %}Connect with our expert doctors from the comfort of your home. Choose your preferred consultation method.{% endblocktrans %}</p>
+        </div>
+
+        <div class="virtual-containers">
+            <div class="virtual-video">
+                <div class="icon"><i class="fa-solid fa-video"></i></div>
+                <h4>{% trans "Video Consultation" %}</h4>
+                <p>{% blocktrans %}Face-to-face consultation with doctors via video call{% endblocktrans %}</p>
+                <p class="duration">{% blocktrans %}Duration: 1hr{% endblocktrans %}</p>
+                <button class="book-now"><a href="{% url 'care_team' %}">{% trans "Book Now" %}</a></button>
+            </div>
+
+            <div class="virtual-video">
+                <div class="icon"><i class="fa-solid fa-message"></i></div>
+                <h4>{% trans "Chat Consultation" %}</h4>
+                <p>{% blocktrans %}Text-based consultation for quick medical advice{% endblocktrans %}</p>
+                <p class="duration">{% blocktrans %}Duration: 15 mins{% endblocktrans %}</p>
+                <button class="book-now"><a href="{% url 'care_team' %}">{% trans "Book Now" %}</a></button>
+            </div>
+
+            <div class="virtual-video">
+                <div class="icon"><i class="fa-solid fa-phone"></i></div>
+                <h4>{% trans "Voice Consultation" %}</h4>
+                <p>{% blocktrans %}Audio consultation for medical guidance{% endblocktrans %}</p>
+                <p class="duration">{% blocktrans %}Duration: 30 mins{% endblocktrans %}</p>
+                <button class="book-now"><a href="{% url 'care_team' %}">{% trans "Book Now" %}</a></button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="guidline" id="how-it-works">
+    <div class="guidance">
+        <h4>{% trans "How It Works" %}</h4>
+        <p class="guidance-text">{% blocktrans %}Get medical care in two steps.<br> It's fast, secure and convenient.{% endblocktrans %}</p>
+    </div>
+
+    <div class="guidline-steps">
+        <div class="steps">
+            <div class="steps-icon" data-step="1">
+                <i class="fa-solid fa-calendar"></i>
+            </div>
+            <h5>{% trans "Choose Doctor & Time" %}</h5>
+            <p>{% blocktrans %}Browse available doctors and select your preferred time slot.{% endblocktrans %}</p>
+        </div>
+
+        <div class="steps">
+            <div class="steps-icon" data-step="2">
+                <i class="fa-solid fa-video"></i>
+            </div>
+            <h5>{% trans "Start Consultation" %}</h5>
+            <p>{% blocktrans %}Connect with your doctor via video, chat or phone.{% endblocktrans %}</p>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,79 @@
+{% extends 'booking/base.html' %} 
+{% load i18n %} 
+{% block body_class%}register-body{% endblock %} 
+{% block hero_class %}hero-register{% endblock %}
+{% block content %}
+
+<section class="register-body">
+  <div class="register-wrapper">
+    <div class="form-container">
+      <div class="account-header">
+        <h1>Create account</h1>
+        <p>Get started in just a few steps, for free.</p>
+      </div>
+
+      <div class="social-login">
+        <a href="#" class="google-btn">
+          {% trans "Continue with Google" %}
+        </a>
+
+        <a href="#" class="apple-btn">
+          {% trans "Continue with Apple" %}
+        </a>
+      </div>
+
+      <div class="divider">
+        <hr class="line">
+        <span>OR</span>
+        <hr class="line">
+    </div>
+
+      <form method="post">
+        {% csrf_token %}
+
+        <div class="form-group">
+          <label for="username">{% trans "Username" %}</label>
+          <input type="text" id="username" name="username" required />
+        </div>
+
+        <div class="form-group">
+          <label for="email">{% trans "Email" %}</label>
+          <input type="email" id="email" name="email" required />
+        </div>
+
+        <div class="form-group">
+          <label for="password1">{% trans "Password" %}</label>
+          <input type="password" id="password1" name="password1" required />
+        </div>
+
+        <div class="form-group">
+          <label for="password2">{% trans "Confirm Password" %}</label>
+          <input type="password" id="password2" name="password2" required />
+        </div>
+
+        <div class="checkbox-container">
+          <input class="check-box" type="checkbox" id="accept" required />
+          <label for="accept">
+            I agree to the
+            <a href="/terms/">Terms</a> and
+            <a href="/privacy/">Privacy Policy</a>
+          </label>
+        </div>
+
+        <button class="register-btn" id="signBtn" type="submit">
+          {% trans "Submit" %}
+        </button>
+      </form>
+
+      <p class="sign-link">
+        {% trans "Already Have An Account?" %}
+        <a href="{% url 'login' %}">{% trans "Sign in" %}</a>
+      </p>
+      <p class="account-header" style="color: #333; font-size: 12px;">&copy;{% trans "YourDoctor 2026" %}</p>
+    </div>
+
+    <div class="hero-register"></div>
+  </div>
+</section>
+{% endblock %}
+{% block footer %}{% endblock %}

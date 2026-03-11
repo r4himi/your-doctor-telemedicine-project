@@ -1,0 +1,80 @@
+{% extends 'booking/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="patient-dashboard">
+    <h2>Welcome, {{ patient_name }}</h2>
+    <h3>Your Appointments</h3>
+
+    {% if bookings %}
+    <!-- Date Filter -->
+    <div class="date-filter">
+        <label for="filterDate">Choose Date: </label>
+        <input type="date" id="filterDate" value="{{ today }}">
+        <div class="ybtn">
+            <button type="button" id="todayBtn">Today</button>
+            <button type="button" id="tomorrowBtn">Tomorrow</button>
+            <button type="button" id="yesterdayBtn">Yesterday</button>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="appointments-table">
+            <thead>
+                <tr>
+                    <th>Doctor</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Notes</th>
+                    <th>Status</th>
+                    <th>Zoom Link</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for booking in bookings %}
+                <tr data-date="{{ booking.day|date:'Y-m-d' }}" {% if booking.day < today %} class="past-appointment" {% endif %}>
+                    <td data-label="Doctor">{{ booking.staff.first_name }} {{ booking.staff.last_name }}</td>
+                    <td data-label="Date">{{ booking.day }}</td>
+                    <td data-label="Time">{{ booking.time }}</td>
+                    <td data-label="Notes">{{ booking.notes }}</td>
+                    <td data-label="Statue">
+                        {% if booking.day < today %}
+                            <span class="badge" style="background-color: gray; color: white;">
+                                {{ booking.status }}
+                            </span>
+                        {% else %}
+                            {% if booking.status == "Pending" %}
+                                <span class="badge badge-warning">Pending</span>
+                            {% elif booking.status == "Accepted" %}
+                                <span class="badge badge-success">Accepted</span>
+                            {% elif booking.status == "Rejected" %}
+                                <span class="badge badge-danger">Rejected</span>
+                            {% endif %}
+                        {% endif %}
+                    </td>
+                    <td data-label="Zoom Link">
+                        {% if booking.zoom_link and booking.status == "Accepted" and booking.day >= today %}
+                            <a href="{{ booking.zoom_link }}" target="_blank">Join Meeting</a>
+                        {% elif booking.day < today %}
+                            <span style="color: gray;">Past Appointment</span>
+                        {% else %}
+                            Not available yet
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% else %}
+    <p>You have no appointments yet.</p>
+    {% endif %}
+</div>
+<script src="{% static 'booking/patient_dash.js' %}"></script>
+<style>
+.past-appointment {
+    color: gray;
+}
+</style>
+{% endblock %}

@@ -1,0 +1,116 @@
+{% extends 'booking/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="dashboard-page">
+    <h2>Welcome, {{ staff.role }} {{ staff.first_name }}</h2>
+    <h3>Your Appointments</h3>
+
+    {% if appointments %}
+    <!-- Date Filter -->
+    <div class="date-filter">
+        <form method="get" action="">
+            <label for="filterDate">Choose Date: </label>
+            <input type="date" id="filterDate" name="date" value="{{ selected_date|default:today }}">
+        </form>
+        <div class="ybtn">
+            <button type="button" id="todayBtn">Today</button>
+            <button type="button" id="tomorrowBtn">Tomorrow</button>
+            <button type="button" id="yesterdayBtn">Yesterday</button>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="appointments-table">
+            <thead>
+                <tr>
+                    <th>Patient Name</th>
+                    <th>Email</th>
+                    <th>Notes</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Status</th>
+                    <th>Zoom Link</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for appt in appointments %}
+                <tr data-date="{{ appt.day|date:'Y-m-d' }}" {% if appt.day < today %} class="past-appointment" {% endif %}>
+                    <td data-label="Name">{{ appt.patient_name }}</td>
+                    <td data-label="Email">{{ appt.patient_email }}</td>
+                    <td data-label="Notes">{{ appt.notes }}</td>
+                    <td data-label="Date">{{ appt.day }}</td>
+                    <td data-label="Time">{{ appt.time }}</td>
+                    <td data-label="Status">
+                        {% if appt.day < today %}
+                            <span class="badge" style="background-color: gray; color: white;">
+                                {{ appt.status }}
+                            </span>
+                        {% else %}
+                            {% if appt.status == "Pending" %}
+                                <span class="badge badge-warning">Pending</span>
+                            {% elif appt.status == "Accepted" %}
+                                <span class="badge badge-success">Accepted</span>
+                            {% elif appt.status == "Rejected" %}
+                                <span class="badge badge-danger">Rejected</span>
+                            {% endif %}
+                        {% endif %}
+                    </td>
+
+                    <!-- Zoom Link column -->
+                    <td data-label="Zoom Link">
+                        {% if appt.zoom_link and appt.status == "Accepted" and appt.day >= today %}
+                            <a href="{{ appt.zoom_link }}" target="_blank" class="join-zoom-btn">Join Zoom Meeting</a>
+                        {% elif appt.day < today %}
+                            <span style="color: gray;">Past Appointment</span>
+                        {% else %}
+                            Not available yet
+                        {% endif %}
+                    </td>
+
+                    <!-- Actions column -->
+                    <td data-label="Actions">
+                        {% if appt.status == "Pending" %}
+                            <button type="button" class="zoom-btn" onclick="toggleZoomInput('{{ appt.id }}')">
+                                Accept & Enter Zoom Link
+                            </button>
+                            <div id="zoom-form-{{ appt.id }}" style="display:none; margin-top:5px;">
+                                <form method="post" action="{% url 'enter_zoom_link' appt.id %}">
+                                    {% csrf_token %}
+                                    <input type="url" name="zoom_link" placeholder="Enter Zoom link" required>
+                                    <button type="submit" class="zoom-btn">Save & Accept</button>
+                                </form>
+                            </div>
+                        {% endif %}
+
+                        {% if appt.status != "Rejected" %}
+                            <button type="button" class="cancel-btn" onclick="toggleCancelForm('{{ appt.id }}')">
+                                Cancel Booking
+                            </button>
+                            <div id="cancel-form-{{ appt.id }}" style="display:none; margin-top:5px;">
+                                <form method="post" action="{% url 'cancel_booking' appt.id %}">
+                                    {% csrf_token %}
+                                    <textarea name="cancel_reason" placeholder="Enter reason" required></textarea>
+                                    <button type="submit" class="cancel-btn">Submit</button>
+                                </form>
+                            </div>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p>No appointments yet.</p>
+    {% endif %}
+</div>
+
+<script src="{% static 'booking/staff_dash.js' %}"></script>
+<style>
+.past-appointment {
+    color: gray;
+}
+</style>
+{% endblock %}

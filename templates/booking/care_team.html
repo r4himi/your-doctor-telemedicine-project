@@ -1,0 +1,86 @@
+{% extends 'booking/base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block hero_text %}
+<div class="hero-search-section">
+    <div class="doctor-hero">
+        <h2>{% trans "Meet Our Experts Care Team" %}</h2>
+        <p>{% trans "Choose the right specialist for your needs." %}</p>
+    </div>
+
+    <div class="srch-con" id="srchCon">
+        <div class="srch-btn" id="srchBtn">
+            <i class="fa-solid fa-search"></i>
+            <input type="search" id="searchInput" placeholder="Search staff or speciality">
+        </div>
+        <div class="select-display">
+            <div class="specialitybar" id="specialityBar">
+            <select id="specialitySelect">
+                <option value="">All Specialities</option>
+            </select>
+        </div>
+        <div class="specialitybar" id="roleBar">
+            <select id="roleSelect">
+                <option value="">All Roles</option>
+            </select>
+        </div>
+        <div class="specialitybar" id="langBar">
+            <select id="langSelect">
+                <option value="">Languages</option>
+            </select>
+        </div>
+        </div>
+
+        <div class="filterbtn">
+            <button id="allBtn">All</button>
+            <button id="applyFilterBtn">Filter</button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="doctor-grid">
+    {% for member in care_team %}
+    <div class="doctor-card"
+        data-role="{{ member.role|lower }}"
+        data-name="{{ member.first_name|lower }} {{ member.last_name|lower }}"
+        data-speciality="{{ member.speciality|lower }}"
+        data-language="{{ member.language|lower }}">
+
+        {% if member.image %}
+            <img src="{{ member.image.url }}" alt="{{ member.first_name }} {{ member.last_name }}" class="doctor-img">
+        {% else %}
+            <img src="{% static 'images/default-doctor.jpg' %}" class="doctor-img">
+        {% endif %}
+
+        <div class="doctor-info">
+            <h3 class="doctor-name">
+                {{ member.get_role_display }} {{ member.first_name }} {{ member.last_name }}
+            </h3>
+            <p class="doctor-speciality">{{ member.speciality }}</p>
+            <p class="doctor-exp">{{ member.experience }} years experience</p>
+            <p class="doctor-lang">Languages: {{ member.language }}</p>
+            <p>Available Days: {{ member.available_day_start }} - {{ member.available_day_end }}</p>
+            <p>Available Times: {{ member.available_time_start|time:"g:i A" }} - {{ member.available_time_end|time:"g:i A" }}</p>
+
+            <p class="doctor-bio">
+                {{ member.bio|truncatewords:15 }}
+            </p>
+
+            <div class="doctor-actions">
+                <a href="{% url 'staff_detail' member.id %}" class="btn view-btn">View Profile</a>
+                {% if user.is_authenticated %}
+                <a style="display: none;" href="{% url 'appointment_page' member.id  %}" class="btn book-sub-btn">Book Appointment</a>
+                {% else %}
+                <a href="{% url 'appointment_page' member.id  %}" class="btn book-sub-btn">Book Appointment</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% empty %}
+        <p>No staff members found.</p>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends 'booking/base.html' %}
+{% load i18n %}
+
+{% block hero_text %}
+<h2>{% trans "Book Your Appointment" %}</h2>
+<p>{% trans "Select a doctor and a convenient time." %}</p>
+{% endblock %}
+
+{% block content %}
+<form>
+    <label for="name">{% trans "Name" %}</label>
+    <input type="text" id="name" name="name">
+
+    <label for="doctor">{% trans "Choose Doctor" %}</label>
+    <select id="doctor" name="doctor">
+        <option value="dr_smith">{% trans "Dr. Smith" %}</option>
+        <option value="dr_jones">{% trans "Dr. Jones" %}</option>
+    </select>
+
+    <label for="date">{% trans "Date" %}</label>
+    <input type="date" id="date" name="date">
+
+    <button type="submit">{% trans "Book Appointment" %}</button>
+</form>
+{% endblock %}

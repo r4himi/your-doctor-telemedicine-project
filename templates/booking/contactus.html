@@ -1,0 +1,82 @@
+{% extends 'booking/base.html' %}
+{% block body_class %}contact-page{% endblock %}
+{% block content %}
+
+<div class="contact-wrapper">
+
+    <!-- Hero Section -->
+    <div class="contact-hero">
+        <h2 class="contact-title">We're Here to Help</h2>
+        <p class="contact-subtitle">
+            Have questions about our services or need assistance?
+            Send us a message and our team will respond within 24 hours.
+        </p>
+    </div>
+
+    <!-- Contact Form -->
+    <div class="contact-form-container">
+        <div class="contact-card">
+            <form method="POST" class="contact-form">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label class="form-label">Full Name</label>
+                    <input type="text" name="name" class="form-input" placeholder="Enter your full name" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" name="email" class="form-input" placeholder="Enter your email" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Subject</label>
+                    <select name="subject" class="form-select" required>
+                        <option value="">Select a subject</option>
+                        <option>General Inquiry</option>
+                        <option>Support</option>
+                        <option>Feedback</option>
+                        <option>Partnership</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Message</label>
+                    <textarea name="message" rows="5" class="form-textarea" placeholder="Write your message here..." required></textarea>
+                </div>
+
+                <button type="submit" class="contact-button">
+                    Send Message
+                </button>
+
+            </form>
+        </div>
+    </div>
+
+    <!-- Quick Contact Info -->
+    <div class="contact-info-section">
+        <div class="contact-info-box">
+            <h5>Call Us</h5>
+            <p>+46 709414592</p>
+        </div>
+
+        <div class="contact-info-box">
+            <h5>Email Us</h5>
+            <p>rahimi.john10@gmail.com</p>
+        </div>
+
+        <div class="contact-info-box">
+            <h5>Visit Us</h5>
+            <p>123 Health Street, Medical City</p>
+        </div>
+    </div>
+
+    <!-- Emergency Notice -->
+    <div class="emergency-alert">
+        <strong>Note:</strong> This form is for general inquiries only.
+        For medical emergencies, please contact your local emergency number immediately.
+    </div>
+
+</div>
+
+{% endblock %}

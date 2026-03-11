@@ -1,0 +1,90 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Book Appointment</title>
+    <link rel="stylesheet" href="{% static 'booking/appointment.css' %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<div class="page">
+    <div class="card">
+
+        <a href="{% url 'care_team' %}" class="back-btn">← Back to Care Team</a>
+
+        <h2>Book Appointment with {{ staff.first_name }} {{ staff.last_name }}</h2>
+        <p class="subtitle">{{ staff.speciality }}</p>
+
+        <form method="POST" action="{% url 'submit_appointment' staff_id=staff.id %}">
+            {% csrf_token %}
+            
+            <input type="hidden" name="staff_id" value="{{ staff.id }}">
+
+            <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label for="date">Appointment Date</label>
+                    <input type="date"
+                           id="date"
+                           name="date"
+                           value="{{ selected_date }}"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label for="time">Appointment Time</label>
+
+                    {% if available_slots %}
+                        <select id="time" name="time" required>
+                            <option value="">Select Time</option>
+                            {% for slot in available_slots %}
+                                <option value="{{ slot }}">{{ slot }}</option>
+                            {% endfor %}
+                        </select>
+                    {% else %}
+                        <select disabled>
+                            <option>No available times</option>
+                        </select>
+                    {% endif %}
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="reason">Reason for Visit</label>
+                <textarea id="reason" name="reason" rows="4" placeholder="Briefly describe your concern..." required></textarea>
+            </div>
+
+            <button type="submit">Submit Appointment</button>
+        </form>
+
+    </div>
+</div>
+<script>
+    // Reload page with ?date=YYYY-MM-DD when user picks a date
+    document.getElementById("date").addEventListener("change", function() {
+        const staffId = "{{ staff.id }}";
+        const selectedDate = this.value;
+        if (selectedDate) {
+            window.location.href = `/en/appointment/${staffId}/?date=${selectedDate}`;
+        }
+    });
+</script>
+</body>
+</html>

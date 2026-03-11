@@ -1,0 +1,100 @@
+{% extends 'booking/base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block hero_text %}
+<div class="about-hero">
+    <h2>{% trans "About Your Doctor" %}</h2>
+</div>
+{% endblock %}
+
+{% block content %}
+
+<div class="about-container">
+    <div class="who-we-are">
+        <div class="who-image">
+            <img src="{% static 'booking/images/doctor-team.jpg' %}" alt="{% trans 'Doctor team photo' %}">
+        </div>
+        <div class="description">
+            <h1>{% trans "Who We Are" %}</h1>
+            <p>
+                {% blocktrans %}
+                Your Doctor is a smart and user-friendly healthcare management platform designed to make the connection 
+                between patients and doctors simple, fast, and secure. Our goal is to reduce manual work, improve communication, 
+                and bring essential healthcare services closer to everyone through technology. YourDoctor is dedicated to offering 
+                high-quality medical services in multiple languages.
+                {% endblocktrans %}
+            </p>
+
+            <div class="care-info">
+                <div class="feature">
+                    <div class="secure-logo"><i class="fa-solid fa-shield"></i></div>
+                    <div class="text-care">
+                        <h5>{% trans "Quality Care" %}</h5>
+                        <p>{% trans "Accredited facilities meeting the highest standards" %}</p>
+                    </div>
+                </div>
+
+                <div class="feature">
+                    <div class="secure-logo"><i class="fa-solid fa-medal"></i></div>
+                    <div class="text-care">
+                        <h5>{% trans "Certified Excellence" %}</h5>
+                        <p>{% trans "Our services meet international healthcare standards" %}</p>
+                    </div>
+                </div>
+
+                <div class="feature">
+                    <div class="secure-logo"><i class="fa-solid fa-user-group"></i></div>
+                    <div class="text-care">
+                        <h5>{% trans "Patient-Centered" %}</h5>
+                        <p>{% trans "Personalized treatment plans for every patient" %}</p>
+                    </div>
+                </div>
+
+                <div class="feature">
+                    <div class="secure-logo"><i class="fa-solid fa-clock"></i></div>
+                    <div class="text-care">
+                        <h5>{% trans "24/7 Emergency" %}</h5>
+                        <p>{% trans "Round-the-clock emergency services available" %}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="about-container">
+    <div class="who-we-are">
+        <div class="who-image">
+            <img src="{% static 'booking/images/online-doctor.jpg' %}" alt="{% trans 'Online doctor' %}">
+        </div>
+        <div class="description">
+            <h1>{% trans "Our Mission" %}</h1>
+            <p>
+                {% blocktrans %}
+                Our mission is to streamline healthcare management by providing a reliable digital system where doctors and administrators 
+                can manage medical data efficiently, while patients receive better and faster care.
+                {% endblocktrans %}
+            </p>
+        </div>
+    </div>
+</div>
+
+<div class="about-container">
+    <div class="who-we-are">
+        <div class="who-image">
+            <img src="{% static 'booking/images/shake-hand.jpg' %}" alt="{% trans 'Handshake' %}">
+        </div>
+        <div class="description">
+            <h1>{% trans "Why Choose Your Doctor" %}</h1>
+            <ul>
+                <li><strong>{% trans "Automation:" %}</strong> {% trans "Our platform makes healthcare management simple by automatically handling doctor registrations, appointments, and notifications." %}</li>
+                <li><strong>{% trans "Security:" %}</strong> {% trans "Your data and medical records are protected with modern security practices, ensuring privacy and trust." %}</li>
+                <li><strong>{% trans "Efficiency:" %}</strong> {% trans "Quickly find and manage doctors, appointments, and patient information with a streamlined interface." %}</li>
+                <li><strong>{% trans "Reliability:" %}</strong> {% trans "Our system ensures accurate records and smooth communication between doctors and patients at all times." %}</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

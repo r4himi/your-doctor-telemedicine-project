@@ -1,0 +1,33 @@
+{% extends 'booking/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="doctor-detail-container">
+    <div class="doctor-card-detail">
+        <!-- Staff Image -->
+        {% if staff.image %}
+            <img src="{{ staff.image.url }}" alt="{{ staff.first_name }} {{ staff.last_name }}" class="doctor-img">
+        {% else %}
+            <img src="{% static 'images/default-doctor.jpg' %}" alt="{{ staff.first_name }} {{ staff.last_name }}" class="doctor-img">
+        {% endif %}
+
+        <!-- Staff Info -->
+        <div class="doctor-info">
+            <h2 class="doctor-name">{{ staff.get_role_display }} {{ staff.first_name }} {{ staff.last_name }}</h2>
+            <p class="doctor-speciality">{{ staff.speciality }}</p>
+            <p class="doctor-exp">{{ staff.experience }} years experience</p>
+            <p class="doctor-lang">Languages: {{ staff.language }}</p>
+            <p class="doctor-days">Available Days: {{ staff.available_day_start }} - {{ staff.available_day_end }}</p>
+            <p class="doctor-times">Available Times: {{ staff.available_time_start|time:"g:i A" }} - {{ staff.available_time_end|time:"g:i A" }}</p>
+
+            <p class="doctor-bio">{{ staff.bio }}</p>
+
+            <!-- Book Appointment Button -->
+            <div class="doctor-actions">
+                <!-- Book Appointment Button -->
+                <a href="{% url 'appointment_page' staff.id  %}" class="btn book-sub-btn">Book Appointment</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
