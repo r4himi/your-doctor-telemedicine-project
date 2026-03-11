@@ -69,5 +69,5 @@ It provides a structured backend and a clean, user-friendly interface to help ma
 Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/yourdoctor.git
+git clone https://github.com/r4himi/yourdoctor.git
 cd yourdoctor
