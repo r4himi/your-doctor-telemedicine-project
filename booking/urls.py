@@ -32,4 +32,5 @@ urlpatterns = [
         views.accept_booking_manual,
         name="accept_booking_manual"
     ),
+    path('admin-login/', views.admin_login, name='admin_login'),
 ]

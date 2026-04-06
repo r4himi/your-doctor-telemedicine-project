@@ -1,0 +1,63 @@
+{% extends 'booking/base.html' %}
+{% load i18n %}
+
+{% block body_class %}register-body{% endblock %}
+{% block hero_class %}hero-register{% endblock %}
+
+{% block content %}
+<section class="register-body">
+  <div class="register-wrapper">
+    <div class="form-container">
+      <div class="account-header">
+        <h1>{% trans "Admin Login" %}</h1>
+        <p>{% trans "Access admin dashboard" %}</p>
+      </div>
+
+      {% if messages %}
+        {% for message in messages %}
+          <p style="color:red;">{{ message }}</p>
+        {% endfor %}
+      {% endif %}
+
+      <form method="post">
+        {% csrf_token %}
+
+        <div class="form-group">
+          <label>{% trans "Username" %}</label>
+          <input type="text" name="username" required />
+        </div>
+
+        <div class="form-group">
+          <label>{% trans "Password" %}</label>
+          <div class="password-container">
+            <input type="password" id="password" name="password" required />
+            <span class="toggle-password" onclick="togglePassword()">
+              <i class="fa-solid fa-eye"></i>
+            </span>
+          </div>
+        </div>
+
+        <button class="register-btn" type="submit">
+          {% trans "Log in" %}
+        </button>
+      </form>
+
+      <p class="account-header" style="color: #333; font-size: 12px;">
+        &copy; {% trans "YourDoctor 2026" %}
+      </p>
+    </div>
+
+    <div class="hero-register"></div>
+  </div>
+</section>
+
+<script>
+function togglePassword() {
+  const passwordInput = document.getElementById("password");
+  passwordInput.type =
+    passwordInput.type === "password" ? "text" : "password";
+}
+</script>
+
+{% block footer %}{% endblock %}
+{% endblock %}

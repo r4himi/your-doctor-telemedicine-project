@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.urls import reverse
 from .models import Staff, Booking
 from .forms import StaffUpdateForm, StaffPasswordChangeForm
 from django.core.mail import send_mail
@@ -13,6 +14,24 @@ from django.utils import timezone
 # from .zoom_service import create_zoom_meeting
 from .tasks import send_zoom_reminder
 
+
+def admin_login(request):
+    if request.method == "POST":
+        username = request.POST.get("username")
+        password = request.POST.get("password")
+
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            if user.is_staff:  # ✅ only admins allowed
+                login(request, user)
+                return redirect(reverse('admin:index'))  # go to admin panel
+            else:
+                messages.error(request, "Not an admin user.")
+        else:
+            messages.error(request, "Invalid credentials.")
+
+    return render(request, "booking/admin_login.html")
 
 
 
