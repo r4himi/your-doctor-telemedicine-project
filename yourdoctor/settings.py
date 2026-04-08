@@ -26,7 +26,7 @@ environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 SECRET_KEY = 'django-insecure-+pj1$+1l5gj5rr=g$o40pr(g4i(iworg0bels@l@%o0ic+i_-='
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -131,7 +131,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'Asia/Kabul'
+TIME_ZONE = 'europe/stockholm'
 USE_TZ = True
 
 USE_I18N = True
@@ -161,7 +161,7 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
-EMAIL_HOST_USER = 'sami.10.rahimi@gmail.com'        
+EMAIL_HOST_USER = env('EMAIL_HOST_USER')        
 DEFAULT_FROM_EMAIL = f"YourDoctor <{env('EMAIL_USER')}>"
 EMAIL_HOST_PASSWORD = env('EMAIL_PASSWORD')
 
