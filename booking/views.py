@@ -23,9 +23,9 @@ def admin_login(request):
         user = authenticate(request, username=username, password=password)
 
         if user is not None:
-            if user.is_staff:  # ✅ only admins allowed
+            if user.is_staff and user.is_active:
                 login(request, user)
-                return redirect(reverse('admin:index'))  # go to admin panel
+                return redirect('/admin/')  # simpler and reliable
             else:
                 messages.error(request, "Not an admin user.")
         else:

@@ -26,7 +26,7 @@ environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 SECRET_KEY = 'django-insecure-+pj1$+1l5gj5rr=g$o40pr(g4i(iworg0bels@l@%o0ic+i_-='
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = []
 
@@ -131,7 +131,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'europe/stockholm'
+TIME_ZONE = 'Asia/Kabul'
 USE_TZ = True
 
 USE_I18N = True
