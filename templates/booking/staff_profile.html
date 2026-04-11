@@ -41,6 +41,11 @@
                 <a href="{% url 'logout' %}" class="dp-btn dp-btn-danger mt-3">
                     <i class="fa fa-sign-out-alt"></i> Logout
                 </a>
+                {% if user.is_superuser %}
+                    <a href="{% url 'admin:index' %}" class="dp-btn dp-btn-info mt-3">
+                        <i class="fa fa-cog"></i> Admin Dashboard
+                    </a>
+                {% endif %}
             </div>
         </div>
 
