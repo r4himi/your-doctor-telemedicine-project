@@ -106,9 +106,14 @@
         </a>
 
         <a href="{% url 'care_team' %}">{% trans "Care Team" %}</a>
-        {% if user.is_authenticated %}
+        {% if user.is_authenticated %} {% if user.is_superuser %}
+        <a href="{% url 'admin:index' %}">{% trans "Admin Panel" %}</a>
+        {% else %}
         <a href="{% url 'staff_dashboard' %}">{% trans "Dashboard" %}</a>
+        {% endif %}
+
         <a href="{% url 'staff_profile' %}">{% trans "Profile" %}</a>
+
         {% else %}
         <a href="{% url 'patient_dashboard' %}">{% trans "Dashboard" %}</a>
         <a href="{% url 'login' %}">{% trans "Login" %}</a>
@@ -139,11 +144,15 @@
           <a href="{% url 'home' %}">{% trans "Home" %}</a>
           <a href="{% url 'about' %}">{% trans "About" %}</a>
           <a href="{% url 'care_team' %}">{% trans "Care Team" %}</a>
-          {% if user.is_authenticated %}
-          <a href="{% url 'staff_dashboard' %}">{% trans "Dashboard" %}</a>
-          <a href="{% url 'staff_profile' %}">{% trans "Profile" %}</a>
+          {% if user.is_authenticated %} {% if user.is_superuser %}
+          <a href="{% url 'admin:index' %}">{% trans "Admin Panel" %}</a>
           {% else %}
-          <a href="{% url 'contactus' %}">{% trans "Contact Us" %}</a>
+          <a href="{% url 'staff_dashboard' %}">{% trans "Dashboard" %}</a>
+          {% endif %}
+
+          <a href="{% url 'staff_profile' %}">{% trans "Profile" %}</a>
+
+          {% else %}
           <a href="{% url 'patient_dashboard' %}">{% trans "Dashboard" %}</a>
           <a href="{% url 'login' %}">{% trans "Login" %}</a>
           {% endif %}
@@ -151,9 +160,7 @@
 
         <div class="patient-support">
           <h3>{% trans "Patient Support" %}</h3>
-          <a href="mailto:yourdoctor@gmail.com"
-            >📧 yourdoctor@gmail.com</a
-          >
+          <a href="mailto:yourdoctor@gmail.com">📧 yourdoctor@gmail.com</a>
           <a href="tel:+xxxxxxxxx">📞 xxxxxxxxx</a>
           <a href="#">🕒 {% trans "24/7" %}</a>
         </div>
