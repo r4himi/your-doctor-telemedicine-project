@@ -436,8 +436,8 @@ def appointment_success(request):
 # Doctors Page
 # ------------------------
 def care_team(request):
-    staff_members = Staff.objects.all()
-    return render(request, 'booking/care_team.html', {'care_team': staff_members})
+    care_team = Staff.objects.filter(is_superuser=False)
+    return render(request, 'booking/care_team.html', {'care_team': care_team})
 
 
 def staff_detail(request, id):
